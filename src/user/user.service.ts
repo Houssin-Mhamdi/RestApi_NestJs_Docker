@@ -8,11 +8,11 @@ import { Repository } from 'typeorm';
 export class UserService {
   constructor(@InjectRepository(User) private readonly userRepo:Repository<User>){}
   
-  async findAllUsers(){
+  async findAllUsers():Promise<User[]>{
     return await this.userRepo.find()
   }
   
-  async findOne(id: number) {
+  async findOne(id: number) :Promise<User | null>{
     return await this.userRepo.findOne({where:{id: id}})
   }
 
@@ -23,5 +23,9 @@ export class UserService {
 
   async updateUser(id:number,updateUserDto: UpdateUserDto) {
 return this.userRepo.update(id,updateUserDto)
+  }
+
+  async deleteUser(id:number): Promise<void>{
+    await this.userRepo.delete(id)
   }
 }
